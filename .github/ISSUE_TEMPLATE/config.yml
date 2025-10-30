@@ -1,0 +1,8 @@
+# blank_issues_enabled: false
+# contact_links:
+#   - name: Discussions
+#     url: https://github.com/{ORG_NAME}/{REPO_NAME}/discussions
+#     about: Please use Discussions for proposals, questions, and ideas.
+#   - name: Documentation
+#     url: https://github.com/{ORG_NAME}/{REPO_NAME}#readme
+#     about: Check the README and docs before opening a new issue.
