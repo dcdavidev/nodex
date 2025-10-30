@@ -1,19 +1,16 @@
-# Nx Workspace for Node.js
+<p align="center">
+ <img alt="nodex logo" src="./assets/md.png" />
+</p>
 
-> A Nx workspace template ready with all dev tools and nx plugins already configured for an opinionated, clean, and hopefully updated to the latest and most reliable tools, for a better node.js development environment.
-
----
-
-## Table of Contents
-
-- [Decisions](#decisions)
-- [License](#license)
+<p align="center"><strong>An extensible and robust Express.js backend framework, designed for effortless customization and rapid deployment.</br></br>Engineered to provide scalable architecture, seamless integration, and full configurability, enabling developers to build secure, performant, and feature-rich APIs with minimal setup.</strong></p>
 
 ---
 
-## Decisions
+## Install
 
-You are invited to read the [ARCHITECTURE DECISIONS](./docs/decisions/README.md) file for understanding why I chose a tool over another.
+```bash
+npm i @dcdavidev/nodex
+```
 
 ## License
 
