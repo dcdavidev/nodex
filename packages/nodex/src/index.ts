@@ -1,1 +1,1 @@
-export { Nodex } from './app-server.js';
+export { Nodex } from './nodex.js';

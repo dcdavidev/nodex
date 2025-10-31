@@ -5,23 +5,28 @@ import type { Logger } from 'pino';
 import helmet from 'helmet';
 
 import { logger } from './logger.js';
+import {
+  NodexConfigSchema,
+  type NodexConfigInput,
+  type NodexConfigOutput,
+} from './schemas/nodex-config.js';
+import { ValidationError } from './errors/validation-error.js';
 
 export class Nodex {
   public app: Application;
   private server?: Server;
-
+  private readonly config: NodexConfigOutput;
   private readonly logger: Logger;
-  private readonly port: number;
 
-  constructor() {
+  constructor(config: NodexConfigInput) {
     this.app = express();
     this.logger = this.setupLogger(this.app);
 
-    this.port = 4000;
-
-    this.setupMiddleware();
+    this.config = this.setupConfig(config);
+    this.setupMiddlewares();
   }
 
+  // --- LOGGER ---
   private setupLogger(app: Application) {
     app.set('logger', logger);
 
@@ -32,22 +37,43 @@ export class Nodex {
     return this.logger;
   }
 
+  // --- Error Handling ---
   private setupErrorHandling() {
     this.server?.on('error', (err) => {
       this.logger.error(err, 'Server error:');
     });
   }
 
-  private setupMiddleware() {
+  // --- Nodex Config ---
+  private setupConfig(config: NodexConfigInput): NodexConfigOutput {
+    const logger = this.getLogger();
+    const result = NodexConfigSchema.safeParse(config);
+
+    if (!result.success) {
+      logger.error(result.error, 'Invalid Nodex configuration');
+      throw new ValidationError('Invalid Nodex configuration', result.error);
+    }
+
+    return result.data;
+  }
+
+  public getConfig(): NodexConfigOutput {
+    return this.config;
+  }
+
+  // --- Middlewares ---
+  private setupMiddlewares() {
     this.app.use(helmet());
   }
 
+  // --- Nodex Start Helper ---
   public start(): Promise<void> {
     const logger = this.getLogger();
+    const { port } = this.getConfig();
 
     return new Promise((resolve) => {
-      this.server = this.app.listen(this.port, () => {
-        logger.info(`Server running on port ${this.port}`);
+      this.server = this.app.listen(port, () => {
+        logger.info(`Server running on port ${port}`);
         resolve();
       });
 
@@ -55,6 +81,7 @@ export class Nodex {
     });
   }
 
+  // Nodex Graceful Shutdown ---
   public async shutdown(): Promise<void> {
     const logger = this.getLogger();
 
