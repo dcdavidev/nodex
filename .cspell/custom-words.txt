@@ -1,7 +1,7 @@
-baka
 criscito
 davide
 expressjs
+ollama
 spellbookx
 dcdavidev
 nodex
