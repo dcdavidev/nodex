@@ -1,44 +1,71 @@
 import type { Server } from 'node:http';
 
 import express, { type Application } from 'express';
+import type { Logger } from 'pino';
+import { logger } from './logger.js';
 
 export class Nodex {
   public app: Application;
   private server?: Server;
 
+  private readonly logger: Logger;
   private readonly port: number;
 
   constructor() {
     this.app = express();
+    this.logger = this.setupLogger(this.app);
+
     this.port = 4000;
   }
 
+  private setupLogger(app: Application) {
+    app.set('logger', logger);
+
+    return logger;
+  }
+
+  public getLogger() {
+    return this.logger;
+  }
+
+  private setupErrorHandling() {
+    this.server?.on('error', (err) => {
+      this.logger.error(err, 'Server error:');
+    });
+  }
+
   public start(): Promise<void> {
+    const logger = this.getLogger();
+
     return new Promise((resolve) => {
       this.server = this.app.listen(this.port, () => {
-        console.log(`Server running on port ${this.port}`);
+        logger.info(`Server running on port ${this.port}`);
         resolve();
       });
+
+      this.setupErrorHandling();
     });
   }
 
   public async shutdown(): Promise<void> {
+    const logger = this.getLogger();
+
     if (!this.server) {
-      console.warn('Server not running.');
+      logger.warn('Server not running.');
       return;
     }
 
-    console.log('Shutdown initiated...');
+    logger.info('Shutdown initiated...');
     // TODO: close DB connections, clear cache, etc...
 
     return new Promise((resolve, reject) => {
       this.server!.close((err) => {
         if (err) {
-          console.error('Error during server shutdown', err);
+          logger.error(err, 'Error during server shutdown');
           reject(err);
           return;
         }
-        console.log('Server stopped gracefully.');
+        logger.info('Server stopped gracefully.');
         resolve();
       });
     });
