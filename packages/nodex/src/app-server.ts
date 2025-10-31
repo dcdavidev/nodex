@@ -2,6 +2,8 @@ import type { Server } from 'node:http';
 
 import express, { type Application } from 'express';
 import type { Logger } from 'pino';
+import helmet from 'helmet';
+
 import { logger } from './logger.js';
 
 export class Nodex {
@@ -16,6 +18,8 @@ export class Nodex {
     this.logger = this.setupLogger(this.app);
 
     this.port = 4000;
+
+    this.setupMiddleware();
   }
 
   private setupLogger(app: Application) {
@@ -32,6 +36,10 @@ export class Nodex {
     this.server?.on('error', (err) => {
       this.logger.error(err, 'Server error:');
     });
+  }
+
+  private setupMiddleware() {
+    this.app.use(helmet());
   }
 
   public start(): Promise<void> {
