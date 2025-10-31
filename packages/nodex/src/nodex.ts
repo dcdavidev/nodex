@@ -9,6 +9,7 @@ import { ValidationError } from './errors/validation-error.js';
 import { logger } from './logger.js';
 import { configureCompression } from './middlewares/compression.js';
 import { configureCors } from './middlewares/cors.js';
+import { errorHandler } from './middlewares/error-handler.js';
 import { configureHelmet } from './middlewares/helmet.js';
 import { configureRateLimit } from './middlewares/rate-limit.js';
 import {
@@ -139,6 +140,9 @@ export class Nodex {
 
     // Rate Limit
     configureRateLimit(this.app, this.config);
+
+    // Error Handler (keep it last)
+    this.app.use(errorHandler);
   }
 
   // --- Nodex Start Helper ---
