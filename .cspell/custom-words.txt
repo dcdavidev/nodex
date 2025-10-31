@@ -2,6 +2,7 @@ criscito
 davide
 expressjs
 ollama
+passportjs
 spellbookx
 dcdavidev
 nodex

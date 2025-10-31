@@ -1,6 +1,11 @@
 import { z } from 'zod';
 
-import { DEFAULT_PORT, MAX_PORT, MIN_PORT, RESERVED_PORTS } from '../consts.js';
+import {
+  DEFAULT_PORT,
+  MAX_PORT,
+  MIN_PORT,
+  RESERVED_PORTS,
+} from '../consts/port.js';
 
 export const PortSchema = z
   .union([

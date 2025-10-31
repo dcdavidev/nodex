@@ -1,4 +1,4 @@
-import { NODE_ENV_VALUES } from '../consts.js';
+import { NODE_ENV_VALUES } from '../consts/node-env.js';
 import { getNodeEnv } from './get-node-env.js';
 
 /**

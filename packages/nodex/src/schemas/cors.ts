@@ -7,7 +7,7 @@ import {
   DEFAULT_CORS_OPTIONS,
   DEFAULT_CORS_OPTIONS_SUCCESS_STATUS,
   DEFAULT_CORS_ORIGINS,
-} from '../consts.js';
+} from '../consts/cors.js';
 
 export const CorsOptionsSchema = z
   .union([

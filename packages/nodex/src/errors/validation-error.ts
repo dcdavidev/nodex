@@ -1,4 +1,4 @@
-import { ERROR_CODES } from '../consts.js';
+import { ERROR_CODES } from '../consts/error-codes.js';
 import { BaseError } from './base-error.js';
 
 /**

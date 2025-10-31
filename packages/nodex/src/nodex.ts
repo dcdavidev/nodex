@@ -1,10 +1,11 @@
 import type { Server } from 'node:http';
 
 import express, { type Application } from 'express';
+import passportjs from 'passport';
 
 import type { Logger } from 'pino';
 
-import { DEFAULT_PORT } from './consts.js';
+import { DEFAULT_PORT } from './consts/port.js';
 import { ValidationError } from './errors/validation-error.js';
 import { logger } from './logger.js';
 import { configureCompression } from './middlewares/compression.js';
@@ -14,6 +15,7 @@ import { errorHandler } from './middlewares/error-handler.js';
 import { configureHelmet } from './middlewares/helmet.js';
 import { configureHpp } from './middlewares/hpp.js';
 import { configureRateLimit } from './middlewares/rate-limit.js';
+import { configureSession } from './middlewares/session.js';
 import {
   type NodexConfigInput,
   type NodexConfigOutput,
@@ -31,6 +33,7 @@ export class Nodex {
   private server?: Server;
   private readonly config: NodexConfigOutput;
   private readonly logger: Logger;
+  private passport?: typeof passportjs;
 
   /**
    * Constructs a new Nodex server instance.
@@ -44,6 +47,11 @@ export class Nodex {
     this.logger = this.setupLogger(this.app);
 
     this.config = this.setupConfig(config);
+
+    if (typeof this.config.passport !== 'boolean') {
+      this.passport = this.config.passport;
+    }
+
     this.setupMiddlewares();
   }
 
@@ -149,9 +157,15 @@ export class Nodex {
     // hpp
     configureHpp(this.app, this.config);
 
-    // TODO: csurf - CSRF protection (usually after HPP)
-    // TODO: express-session - Session management (should be before passport)
-    // TODO: passport - Authentication middleware (after session)
+    // express-session - Session management
+    configureSession(this.app, this.config);
+
+    // passport - Authentication middleware
+    if (this.passport) {
+      this.app.use(this.passport.initialize());
+      this.app.use(this.passport.session());
+    }
+
     // TODO: celebrate/joi - Validation middleware (usually early)
     // TODO: multer - multipart/form-data (file upload, before routes)
     // TODO: method-override - HTTP method override (depends on your forms)

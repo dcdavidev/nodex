@@ -1,10 +1,11 @@
+import { z } from 'zod';
+
 import {
   DEFAULT_RATE_LIMIT_MAX,
   DEFAULT_RATE_LIMIT_MESSAGE,
   DEFAULT_RATE_LIMIT_OPTIONS,
   DEFAULT_RATE_LIMIT_WINDOW_MS,
-} from 'src/consts.js';
-import { z } from 'zod';
+} from '../consts/rate-limit.js';
 
 export const RateLimitOptionsSchema = z
   .union([

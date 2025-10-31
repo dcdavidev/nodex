@@ -5,3 +5,4 @@ export { errorHandler } from './error-handler.js';
 export { configureHelmet } from './helmet.js';
 export { configureHpp } from './hpp.js';
 export { configureRateLimit } from './rate-limit.js';
+export { configureSession } from './session.js';

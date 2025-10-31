@@ -24,6 +24,8 @@ export { NODE_ENVS, NodeEnvSchema, NodeEnvEnum } from './node-env.js';
 export type { NodeEnv } from './node-env.js';
 export { NodexConfigSchema } from './nodex-config.js';
 export type { NodexConfigInput, NodexConfigOutput } from './nodex-config.js';
+export { PassportSchema } from './passport.js';
+export type { PassportInput, PassportOutput } from './passport.js';
 export { PortSchema } from './port.js';
 export type { PortInput } from './port.js';
 export { RateLimitOptionsSchema } from './rate-limit.js';
@@ -31,3 +33,5 @@ export type {
   RateLimitOptionsInput,
   RateLimitOptionsOutput,
 } from './rate-limit.js';
+export { SessionCookieSchema, SessionOptionsSchema } from './session.js';
+export type { SessionOptions } from './session.js';
