@@ -1,13 +1,13 @@
 import type { Server } from 'node:http';
 
 import express, { type Application } from 'express';
-import helmet from 'helmet';
 
 import type { Logger } from 'pino';
 
 import { DEFAULT_PORT } from './consts.js';
 import { ValidationError } from './errors/validation-error.js';
 import { logger } from './logger.js';
+import { configureHelmet } from './middlewares/helmet.js';
 import {
   type NodexConfigInput,
   type NodexConfigOutput,
@@ -121,7 +121,7 @@ export class Nodex {
    * this.setupMiddlewares();
    */
   private setupMiddlewares() {
-    this.app.use(helmet());
+    configureHelmet(this.app, this.config);
   }
 
   // --- Nodex Start Helper ---

@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { MAX_PORT, MIN_PORT, RESERVED_PORTS } from '../consts.js';
+import { DEFAULT_PORT, MAX_PORT, MIN_PORT, RESERVED_PORTS } from '../consts.js';
 
 export const PortSchema = z
   .union([
@@ -10,6 +10,8 @@ export const PortSchema = z
   .transform((val) => (typeof val === 'string' ? Number(val) : val))
   .refine((port: number) => !RESERVED_PORTS[port], {
     message: 'The selected port is reserved for another application',
-  });
+  })
+  .optional()
+  .default(DEFAULT_PORT);
 
 export type PortInput = z.input<typeof PortSchema>;

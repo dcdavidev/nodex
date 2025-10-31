@@ -1,3 +1,3 @@
-export { BaseError } from './base-error';
-export { ConfigError } from './config-error';
-export { ValidationError } from './validation-error';
+export { BaseError } from './base-error.js';
+export { ConfigError } from './config-error.js';
+export { ValidationError } from './validation-error.js';

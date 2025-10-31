@@ -1,10 +1,13 @@
 import { z } from 'zod';
 
-import { DEFAULT_PORT } from '../consts.js';
+import { CorsOptionsSchema } from './cors.js';
+import { HelmetOptionsSchema } from './helmet.js';
 import { PortSchema } from './port.js';
 
 export const NodexConfigSchema = z.object({
-  port: PortSchema.default(DEFAULT_PORT),
+  port: PortSchema,
+  helmet: HelmetOptionsSchema,
+  cors: CorsOptionsSchema,
 });
 
 export type NodexConfigInput = z.input<typeof NodexConfigSchema>;

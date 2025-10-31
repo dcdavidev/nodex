@@ -1,5 +1,4 @@
-import { ERROR_CODES } from 'src/consts.js';
-
+import { ERROR_CODES } from '../consts.js';
 import { BaseError } from './base-error.js';
 
 /**
@@ -17,7 +16,11 @@ export class ValidationError extends BaseError {
    * @example
    * throw new ValidationError('Invalid email format', zodResult.error, { field: 'email' });
    */
-  constructor(message: string, cause?: unknown, context?: unknown) {
+  constructor(
+    message: string,
+    cause?: unknown,
+    context?: Record<string | number | symbol, unknown>
+  ) {
     super(message, {
       code: ERROR_CODES.VALIDATION_ERROR,
       cause,

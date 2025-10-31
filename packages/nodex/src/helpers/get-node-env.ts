@@ -1,5 +1,4 @@
-import { NODE_ENV_VALUES } from 'src/consts.js';
-
+import { NODE_ENV_VALUES } from '../consts.js';
 import { ValidationError } from '../errors/validation-error.js';
 import { type NodeEnv, NodeEnvSchema } from '../schemas/node-env.js';
 

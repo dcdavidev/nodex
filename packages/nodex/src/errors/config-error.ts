@@ -1,5 +1,4 @@
-import { ERROR_CODES } from 'src/consts.js';
-
+import { ERROR_CODES } from '../consts.js';
 import { BaseError } from './base-error.js';
 
 /**
@@ -18,7 +17,11 @@ export class ConfigError extends BaseError {
    * @example
    * throw new ConfigError('Failed to load config file', readError, { file: './config.json' });
    */
-  constructor(message: string, cause?: unknown, context?: unknown) {
+  constructor(
+    message: string,
+    cause?: unknown,
+    context?: Record<string | number | symbol, unknown>
+  ) {
     super(message, {
       code: ERROR_CODES.CONFIG_ERROR,
       cause,

@@ -17,6 +17,6 @@ const baseOptions = {
   level: LOG_LEVELS.INFO,
 };
 
-export const logger = isDevelopment
+export const logger = isDevelopment()
   ? pino(baseOptions, prettyStream)
   : pino(baseOptions);
