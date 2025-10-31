@@ -1,0 +1,85 @@
+{
+  "name": "@dcdavidev/nodex",
+  "version": "0.0.1",
+  "private": false,
+  "description": "An extensible and robust Express.js backend framework, designed for effortless customization and rapid deployment.",
+  "keywords": [
+    "typescript",
+    "expressjs",
+    "express-js",
+    "server",
+    "backend",
+    "api"
+  ],
+  "homepage": "https://github.com/dcdavidev/nodex#readme",
+  "bugs": {
+    "url": "https://github.com/dcdavidev/nodex/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dcdavidev/nodex.git",
+    "directory": "packages/nodex"
+  },
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "LICENSE"
+  ],
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.9.2",
+    "tsdown": "^0.15.12",
+    "typescript": "^5.9.3"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "nx": {
+    "name": "nodex",
+    "targets": {
+      "build": {
+        "executor": "nx:run-commands",
+        "inputs": [
+          "production"
+        ],
+        "outputs": [
+          "{projectRoot}/dist"
+        ],
+        "options": {
+          "cwd": "{projectRoot}",
+          "parallel": false,
+          "commands": [
+            "npx tsc --project tsconfig.lib.json",
+            "tsdown"
+          ]
+        }
+      },
+      "watch": {
+        "executor": "nx:run-commands",
+        "inputs": [
+          "default"
+        ],
+        "options": {
+          "cwd": "{projectRoot}",
+          "commands": [
+            "tsdown --watch"
+          ]
+        }
+      }
+    }
+  }
+}
