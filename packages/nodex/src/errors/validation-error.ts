@@ -1,17 +1,19 @@
 import { BaseError } from './base-error.js';
 
 /**
- * Custom error class specifically for **validation failures**.
- * It automatically sets the machine-readable error `code` to `'VALIDATION_ERROR'`.
- * This provides a standard, easy-to-check error type for client-side input errors,
- * data integrity issues, or schema violations.
+ * Custom error class for validation failures.
+ * Used for input errors, schema violations, or data integrity issues.
+ * Automatically sets the error code to `"VALIDATION_ERROR"` to allow standard handling of validation errors.
  */
 export class ValidationError extends BaseError {
   /**
-   * Creates an instance of ValidationError.
-   * @param message The human-readable error message detailing what failed validation.
-   * @param cause Optional original error or value that triggered the validation failure (e.g., a ZodError).
-   * @param context Optional additional context, such as the path to the invalid config file or the specific setting that failed.
+   * Constructs a new ValidationError instance.
+   * @param message The human-readable error message describing what failed validation.
+   * @param cause Optional original error or value that caused the validation failure, such as a ZodError or validation detail.
+   * @param context Optional additional context data, for example the invalid field, config path, or offending input.
+   *
+   * @example
+   * throw new ValidationError('Invalid email format', zodResult.error, { field: 'email' });
    */
   constructor(message: string, cause?: unknown, context?: unknown) {
     super(message, {

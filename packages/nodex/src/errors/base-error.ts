@@ -5,40 +5,45 @@ import type {
 import { ErrorMetadataSchema } from '../schemas/error-metadata.js';
 
 /**
- * Base class for all custom errors.
- * Extends the native Error to preserve stack traces and adds structured metadata.
+ * Base class for all custom application errors.
+ * Extends the native `Error` to preserve stack traces and adds structured, validated metadata.
+ *
+ * Provides consistent error information for debugging and structured logging.
  */
 export class BaseError extends Error {
   /**
-   * The machine-readable error code.
+   * The machine-readable error code, suitable for programmatic handling.
    * @readonly
    */
   public readonly code: string;
 
   /**
-   * The optional cause that triggered this error.
+   * The optional cause that triggered this error instance.
+   * May be any value, but usually another Error object for chained errors.
    * @override
    * @readonly
    */
   public override readonly cause?: unknown;
 
   /**
-   * Additional context for debugging.
+   * Additional error context for debugging (may contain any serializable data).
    * @readonly
    */
   public readonly context?: unknown;
 
   /**
-   * Creates an instance of BaseError.
-   * Validates the input metadata using Zod to ensure data integrity.
+   * Constructs a new instance of BaseError.
+   * Validates the provided metadata to ensure it matches the ErrorMetadataSchema.
    * @param message The human-readable error message.
-   * @param metadata Structured metadata, validated against ErrorMetadataSchema.
-   * @throws {Error} Throws an error if the provided metadata fails Zod validation.
+   * @param metadata Structured metadata for this error instance. It will be validated.
+   * @throws {Error} Throws if the metadata is invalid according to ErrorMetadataSchema.
+   * @example
+   * const err = new BaseError('User not found', { code: 'USER_NOT_FOUND' });
    */
   constructor(message: string, metadata: ErrorMetadataInput) {
     super(message);
 
-    // Set the name to the correct class name (e.g., 'ValidationError' if a subclass is instantiated)
+    // Sets the name property to the actual class name (useful with inheritance).
     this.name = new.target.name;
 
     const validatedMetadata = this.validateMetadata(metadata, message);
@@ -47,17 +52,19 @@ export class BaseError extends Error {
     this.cause = validatedMetadata.cause;
     this.context = validatedMetadata.context;
 
-    // Correctly set the prototype chain for proper inheritance (Crucial for ES5/TS targets)
+    // Ensures proper prototype chain for custom errors (required for ES5/TypeScript).
     Object.setPrototypeOf(this, new.target.prototype);
   }
 
   /**
-   * Validates the input metadata against the schema using `safeParse`.
-   * Throws a clear Error if validation fails, wrapping the original ZodError as the cause.
-   * @param input The raw input metadata.
-   * @param parentErrorMessage The message of the error being constructed, for context in the thrown error.
-   * @returns The parsed and validated metadata.
-   * @throws {Error} If Zod validation fails.
+   * Validates the error metadata using ErrorMetadataSchema.
+   * Throws a clear error if validation fails, including the original Zod error as the cause.
+   * @param input The raw metadata input.
+   * @param parentErrorMessage The message of the error being constructed, for improved diagnostics.
+   * @returns {ErrorMetadataOutput} Parsed and validated metadata.
+   * @throws {Error} If the metadata does not pass validation.
+   * @example
+   * this.validateMetadata({ code: 'INVALID', context: { foo: 42 } }, 'Something failed');
    */
   private validateMetadata(
     input: ErrorMetadataInput,
@@ -75,9 +82,12 @@ export class BaseError extends Error {
   }
 
   /**
-   * Returns a plain object representation, useful for structured logging or serialization.
-   * Includes normalized cause and the full stack trace.
-   * @returns {object} A plain object with error details.
+   * Returns a plain object representation of the error,
+   * useful for structured logging, serialization, or external error reporting.
+   * Nested error causes include their name, message, and stack trace.
+   * @returns {object} A plain, serializable object representing this error.
+   * @example
+   * JSON.stringify(err.toJSON());
    */
   toJSON(): object {
     const normalizedCause =
@@ -85,7 +95,7 @@ export class BaseError extends Error {
         ? {
             name: this.cause.name,
             message: this.cause.message,
-            stack: this.cause.stack, // Include the cause's stack trace
+            stack: this.cause.stack,
           }
         : this.cause;
 

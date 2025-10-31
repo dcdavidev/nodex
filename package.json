@@ -25,7 +25,8 @@
     "nx:reset": "nx reset",
     "nx:sync": "nx sync",
     "nx:upgrade": "nx migrate latest",
-    "prepare": "lefthook install"
+    "prepare": "lefthook install",
+    "spellbookx:upgrade": "npm i -D @spellbookx/{commitlint,cspell,prettier}-config@latest @spellbookx/eslint-plugin@latest"
   },
   "config": {
     "commitizen": {
@@ -47,10 +48,10 @@
     "@nx/webpack": "22.0.1",
     "@nx/workspace": "22.0.1",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.6.1",
-    "@spellbookx/commitlint-config": "^0.21.4",
-    "@spellbookx/cspell-config": "^0.21.4",
-    "@spellbookx/eslint-plugin": "^0.23.0",
-    "@spellbookx/prettier-config": "^0.21.4",
+    "@spellbookx/commitlint-config": "^0.21.6",
+    "@spellbookx/cspell-config": "^0.21.6",
+    "@spellbookx/eslint-plugin": "^0.23.4",
+    "@spellbookx/prettier-config": "^0.21.6",
     "@svgr/webpack": "^8.0.1",
     "@swc-node/register": "^1.11.1",
     "@swc/core": "^1.14.0",

@@ -1,5 +1,7 @@
-import pino from 'pino';
 import pretty from 'pino-pretty';
+
+import pino from 'pino';
+
 import { isDevelopment } from './helpers/is-development.js';
 
 const prettyStream = pretty({

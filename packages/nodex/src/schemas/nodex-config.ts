@@ -1,4 +1,5 @@
 import { z } from 'zod';
+
 import { PortSchema } from './port.js';
 
 export const NodexConfigSchema = z.object({

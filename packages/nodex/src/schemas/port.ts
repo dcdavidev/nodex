@@ -5,8 +5,8 @@ export const RESERVED_PORTS: Record<number, string> = {
   3306: 'MySQL',
   5432: 'PostgreSQL',
   6379: 'Redis',
-  27017: 'MongoDB',
-  27018: 'MongoDB shard/replica',
+  27_017: 'MongoDB',
+  27_018: 'MongoDB shard/replica',
   9200: 'Elasticsearch',
   5601: 'Kibana',
   // Dev tools
@@ -17,14 +17,17 @@ export const RESERVED_PORTS: Record<number, string> = {
   5000: 'MLflow (also common for Flask)',
   8265: 'Ray Dashboard',
   8787: 'Dask Dashboard',
-  11434: 'Ollama API',
+  11_434: 'Ollama API',
 };
 
 export const ALLOWED_PORTS = new Set([3000, 8000, 8080]);
 
 // Schema: accepts numeric strings or numbers without transformations
 export const PortSchema = z
-  .union([z.string().regex(/^\d{4,5}$/), z.number().int().min(3000).max(65535)])
+  .union([
+    z.string().regex(/^\d{4,5}$/),
+    z.number().int().min(3000).max(65_535),
+  ])
   .optional();
 
 export type PortInput = z.input<typeof PortSchema>;
