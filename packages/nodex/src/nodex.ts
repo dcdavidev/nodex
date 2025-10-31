@@ -10,6 +10,7 @@ import { logger } from './logger.js';
 import { configureCompression } from './middlewares/compression.js';
 import { configureCors } from './middlewares/cors.js';
 import { configureHelmet } from './middlewares/helmet.js';
+import { configureRateLimit } from './middlewares/rate-limit.js';
 import {
   type NodexConfigInput,
   type NodexConfigOutput,
@@ -123,15 +124,21 @@ export class Nodex {
    * this.setupMiddlewares();
    */
   private setupMiddlewares() {
+    // Helmet
     configureHelmet(this.app, this.config);
 
+    // Cors
     configureCors(this.app, this.config);
 
+    // Body Parsers
     this.app.use(express.json());
-
     this.app.use(express.urlencoded({ extended: true }));
 
+    // Compression
     configureCompression(this.app, this.config);
+
+    // Rate Limit
+    configureRateLimit(this.app, this.config);
   }
 
   // --- Nodex Start Helper ---

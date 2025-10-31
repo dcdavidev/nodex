@@ -1,4 +1,4 @@
-// Port
+// --- Port ---
 export const RESERVED_PORTS: Record<number, string> = {
   // Databases
   3306: 'MySQL',
@@ -23,7 +23,7 @@ export const MIN_PORT = 1024;
 export const MAX_PORT = 65_535;
 export const ALLOWED_PORTS = new Set([DEFAULT_PORT, 8000, 8080]);
 
-// Node environment constants
+// --- Node environment constants ---
 export const NODE_ENV_VALUES = {
   DEVELOPMENT: 'development',
   PRODUCTION: 'production',
@@ -31,7 +31,7 @@ export const NODE_ENV_VALUES = {
   STAGING: 'staging',
 } as const;
 
-// Log levels
+// --- Log levels ---
 export const LOG_LEVELS = {
   ERROR: 'error',
   WARN: 'warn',
@@ -40,7 +40,7 @@ export const LOG_LEVELS = {
   TRACE: 'trace',
 } as const;
 
-// Error codes
+// --- Error codes ---
 export const ERROR_CODES = {
   VALIDATION_ERROR: 'VALIDATION_ERROR',
   CONFIG_ERROR: 'CONFIG_ERROR',
@@ -51,7 +51,7 @@ export const ERROR_CODES = {
   BAD_REQUEST: 'BAD_REQUEST',
 } as const;
 
-// CORS config default values
+// --- CORS config default values ---
 export const DEFAULT_CORS_ORIGINS = [`http://localhost:${DEFAULT_PORT}`];
 export const DEFAULT_CORS_METHODS = [
   'GET',
@@ -76,4 +76,15 @@ export const DEFAULT_CORS_OPTIONS = {
   allowedHeaders: DEFAULT_CORS_ALLOWED_HEADERS,
   credentials: DEFAULT_CORS_CREDENTIALS,
   optionsSuccessStatus: DEFAULT_CORS_OPTIONS_SUCCESS_STATUS,
+};
+
+// --- Rate Limit ---
+export const DEFAULT_RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000;
+export const DEFAULT_RATE_LIMIT_MAX = 100;
+export const DEFAULT_RATE_LIMIT_MESSAGE =
+  'Too many requests, please try again later.';
+export const DEFAULT_RATE_LIMIT_OPTIONS = {
+  windowMs: DEFAULT_RATE_LIMIT_WINDOW_MS,
+  max: DEFAULT_RATE_LIMIT_MAX,
+  message: DEFAULT_RATE_LIMIT_MESSAGE,
 };
