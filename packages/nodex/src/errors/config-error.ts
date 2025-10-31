@@ -1,3 +1,5 @@
+import { ERROR_CODES } from 'src/consts.js';
+
 import { BaseError } from './base-error.js';
 
 /**
@@ -18,7 +20,7 @@ export class ConfigError extends BaseError {
    */
   constructor(message: string, cause?: unknown, context?: unknown) {
     super(message, {
-      code: 'CONFIG_ERROR',
+      code: ERROR_CODES.CONFIG_ERROR,
       cause,
       context,
     });

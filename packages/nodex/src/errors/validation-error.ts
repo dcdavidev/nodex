@@ -1,3 +1,5 @@
+import { ERROR_CODES } from 'src/consts.js';
+
 import { BaseError } from './base-error.js';
 
 /**
@@ -17,7 +19,7 @@ export class ValidationError extends BaseError {
    */
   constructor(message: string, cause?: unknown, context?: unknown) {
     super(message, {
-      code: 'VALIDATION_ERROR',
+      code: ERROR_CODES.VALIDATION_ERROR,
       cause,
       context,
     });

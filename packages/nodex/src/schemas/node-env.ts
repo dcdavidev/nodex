@@ -1,13 +1,10 @@
 import { z } from 'zod';
 
-export const NODE_ENVS = [
-  'development',
-  'testing',
-  'staging',
-  'production',
-] as const;
+import { NODE_ENV_VALUES } from '../consts.js';
 
-export const NodeEnvSchema = z.enum(NODE_ENVS);
+export const NODE_ENVS = Object.values(NODE_ENV_VALUES);
+
+export const NodeEnvSchema = z.enum([...NODE_ENVS]);
 
 export const NodeEnvEnum = NodeEnvSchema.enum;
 

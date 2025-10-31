@@ -1,5 +1,7 @@
+import { NODE_ENV_VALUES } from 'src/consts.js';
+
 import { ValidationError } from '../errors/validation-error.js';
-import { NODE_ENVS, type NodeEnv, NodeEnvSchema } from '../schemas/node-env.js';
+import { type NodeEnv, NodeEnvSchema } from '../schemas/node-env.js';
 
 /**
  * Parses the `NODE_ENV` environment variable from `process.env`.
@@ -18,7 +20,7 @@ export function getNodeEnv(): NodeEnv {
   if (!result.success) {
     throw new ValidationError('Invalid Node Env', result.error, {
       provided: rawNodeEnv,
-      expected: NODE_ENVS.join('|'),
+      expected: Object.values(NODE_ENV_VALUES).join('|'),
     });
   }
 

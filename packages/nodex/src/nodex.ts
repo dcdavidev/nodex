@@ -5,6 +5,7 @@ import helmet from 'helmet';
 
 import type { Logger } from 'pino';
 
+import { DEFAULT_PORT } from './consts.js';
 import { ValidationError } from './errors/validation-error.js';
 import { logger } from './logger.js';
 import {
@@ -138,10 +139,13 @@ export class Nodex {
 
     return new Promise((resolve) => {
       this.server = this.app.listen(port, () => {
-        logger.info(`Server running on port ${port}`);
+        if (port === DEFAULT_PORT) {
+          logger.info(`Server running on default port ${port}`);
+        } else {
+          logger.info(`Server running on port ${port}`);
+        }
         resolve();
       });
-
       this.setupErrorHandling();
     });
   }

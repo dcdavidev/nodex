@@ -2,6 +2,7 @@ import pretty from 'pino-pretty';
 
 import pino from 'pino';
 
+import { LOG_LEVELS } from './consts.js';
 import { isDevelopment } from './helpers/is-development.js';
 
 const prettyStream = pretty({
@@ -12,4 +13,10 @@ const prettyStream = pretty({
   singleLine: true,
 });
 
-export const logger = isDevelopment ? pino(prettyStream) : pino();
+const baseOptions = {
+  level: LOG_LEVELS.INFO,
+};
+
+export const logger = isDevelopment
+  ? pino(baseOptions, prettyStream)
+  : pino(baseOptions);
