@@ -7,6 +7,8 @@ import type { Logger } from 'pino';
 import { DEFAULT_PORT } from './consts.js';
 import { ValidationError } from './errors/validation-error.js';
 import { logger } from './logger.js';
+import { configureCompression } from './middlewares/compression.js';
+import { configureCors } from './middlewares/cors.js';
 import { configureHelmet } from './middlewares/helmet.js';
 import {
   type NodexConfigInput,
@@ -122,6 +124,14 @@ export class Nodex {
    */
   private setupMiddlewares() {
     configureHelmet(this.app, this.config);
+
+    configureCors(this.app, this.config);
+
+    this.app.use(express.json());
+
+    this.app.use(express.urlencoded({ extended: true }));
+
+    configureCompression(this.app, this.config);
   }
 
   // --- Nodex Start Helper ---

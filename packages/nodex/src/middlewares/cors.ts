@@ -5,7 +5,6 @@ import type { NodexConfigOutput } from '../schemas/nodex-config.js';
 
 /**
  * Configures the CORS middleware for an Express application.
- *
  * Reads the `cors` option from the provided config.
  * If the option is a boolean:
  * - `false` disables CORS middleware.

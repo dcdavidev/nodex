@@ -1,3 +1,8 @@
+export type {
+  CompressionOptionsInput,
+  CompressionOptionsOutput,
+} from './compression.js';
+export { CompressionOptionsSchema } from './compression.js';
 export type { CorsOptionsInput, CorsOptionsOutput } from './cors.js';
 export { CorsOptionsSchema } from './cors.js';
 export type {
