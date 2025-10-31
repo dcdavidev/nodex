@@ -3,6 +3,11 @@ export type {
   CompressionOptionsInput,
   CompressionOptionsOutput,
 } from './compression.js';
+export { CookieParserOptionsSchema } from './cookie-parser.js';
+export type {
+  CookieParserOptionsInput,
+  CookieParserOptionsOutput,
+} from './cookie-parser.js';
 export { CorsOptionsSchema } from './cors.js';
 export type { CorsOptionsInput, CorsOptionsOutput } from './cors.js';
 export { ErrorMetadataSchema } from './error-metadata.js';

@@ -8,6 +8,7 @@ import { DEFAULT_PORT } from './consts.js';
 import { ValidationError } from './errors/validation-error.js';
 import { logger } from './logger.js';
 import { configureCompression } from './middlewares/compression.js';
+import { configureCookieParser } from './middlewares/cookie-parser.ts.js';
 import { configureCors } from './middlewares/cors.js';
 import { errorHandler } from './middlewares/error-handler.js';
 import { configureHelmet } from './middlewares/helmet.js';
@@ -134,6 +135,9 @@ export class Nodex {
     // Body Parsers
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
+
+    // Cookie Parser
+    configureCookieParser(this.app, this.config);
 
     // Compression
     configureCompression(this.app, this.config);
