@@ -12,6 +12,7 @@ import { configureCookieParser } from './middlewares/cookie-parser.ts.js';
 import { configureCors } from './middlewares/cors.js';
 import { errorHandler } from './middlewares/error-handler.js';
 import { configureHelmet } from './middlewares/helmet.js';
+import { configureHpp } from './middlewares/hpp.js';
 import { configureRateLimit } from './middlewares/rate-limit.js';
 import {
   type NodexConfigInput,
@@ -129,21 +130,33 @@ export class Nodex {
     // Helmet
     configureHelmet(this.app, this.config);
 
-    // Cors
+    // CORS
     configureCors(this.app, this.config);
 
     // Body Parsers
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
 
-    // Cookie Parser
+    // cookie-parser
     configureCookieParser(this.app, this.config);
 
-    // Compression
+    // compression
     configureCompression(this.app, this.config);
 
-    // Rate Limit
+    // express-rate-limit
     configureRateLimit(this.app, this.config);
+
+    // hpp
+    configureHpp(this.app, this.config);
+
+    // TODO: csurf - CSRF protection (usually after HPP)
+    // TODO: express-session - Session management (should be before passport)
+    // TODO: passport - Authentication middleware (after session)
+    // TODO: celebrate/joi - Validation middleware (usually early)
+    // TODO: multer - multipart/form-data (file upload, before routes)
+    // TODO: method-override - HTTP method override (depends on your forms)
+    // TODO: serve-static - serve static files
+    // TODO: serve-favicon - serve site favicon
 
     // Error Handler (keep it last)
     this.app.use(errorHandler);

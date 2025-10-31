@@ -18,6 +18,8 @@ export type {
 } from './error-metadata.js';
 export { HelmetOptionsSchema } from './helmet.js';
 export type { HelmetOptionsInput, HelmetOptionsOutput } from './helmet.js';
+export { HppOptionsSchema } from './hpp.js';
+export type { HppOptionsInput, HppOptionsoutput } from './hpp.js';
 export { NODE_ENVS, NodeEnvSchema, NodeEnvEnum } from './node-env.js';
 export type { NodeEnv } from './node-env.js';
 export { NodexConfigSchema } from './nodex-config.js';
