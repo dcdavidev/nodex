@@ -1,6 +1,6 @@
 {
   "name": "@dcdavidev/nodex",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": false,
   "description": "An extensible and robust Express.js backend framework, designed for effortless customization and rapid deployment.",
   "keywords": [
