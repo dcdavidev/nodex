@@ -22,6 +22,7 @@ export function configurePassport(app: Application, config: NodexConfigInput) {
    */
   if (!passport || typeof passport === 'boolean') return;
 
+  app.set('passport', passport);
   app.use(passport.initialize());
   app.use(passport.session());
 
