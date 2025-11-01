@@ -51,9 +51,6 @@ export function setupMiddlewares(
   // passport - Authentication middleware
   configurePassport(app, config);
 
-  // TODO: serve-static - serve static files
-  // TODO: serve-favicon - serve site favicon
-
   // Error Handler (keep it last)
   app.use(errorHandler);
 }
