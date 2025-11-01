@@ -21,6 +21,8 @@
     "nx:agents:upgrade": "nx configure-ai-agents --agents codex gemini",
     "nx:daemon:start": "nx daemon --start",
     "nx:migrate": "nx migrate --run-migrations=migrations.json --if-exists && npm install",
+    "nx:release": "nx release --yes --verbose",
+    "nx:release:first-release": "nx release --first-release --yes --verbose",
     "nx:repair": "nx repair",
     "nx:reset": "nx reset",
     "nx:sync": "nx sync",
