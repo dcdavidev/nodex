@@ -76,7 +76,7 @@
       "unitTestRunner": "none"
     },
     "@nx/node:application": {
-      "bundler": "webpack",
+      "bundler": "esbuild",
       "e2eTestRunner": "none",
       "framework": "none",
       "linter": "none",
@@ -107,6 +107,11 @@
       "dependsOn": ["^build"],
       "inputs": ["production", "^production"],
       "outputs": ["{projectRoot}/dist"]
+    },
+    "@nx/esbuild:esbuild": {
+      "cache": true,
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production"]
     }
   },
   "release": {
@@ -114,7 +119,7 @@
     "projectsRelationship": "independent",
     "version": {
       "conventionalCommits": true,
-      "preVersionCommand": "npm install --ignore-scripts && nx run-many -t build --verbose --tui false"
+      "preVersionCommand": "npm install --ignore-scripts && nx nodex:build --verbose --tui false"
     },
     "changelog": {
       "workspaceChangelog": false,
