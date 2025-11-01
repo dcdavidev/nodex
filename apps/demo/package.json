@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "dependencies": {
-    "@dcdavidev/nodex": "^0.1.1",
+    "@dcdavidev/nodex": "^0.2.1",
     "express": "^5.1.0",
     "serve-favicon": "^2.5.1"
   },
@@ -33,7 +33,7 @@
           "main": "apps/demo/src/main.ts",
           "tsConfig": "apps/demo/tsconfig.app.json",
           "assets": [
-            "apps/demo/favicons"
+            "apps/demo/src/favicons"
           ],
           "esbuildOptions": {
             "sourcemap": true,

@@ -17,16 +17,17 @@ const demo = new Nodex({
     origin: ['http://localhost:4000'],
   },
   helmet: {
-    directives: {
-      defaultSrc: ["'none'"],
-      connectSrc: ["'self'", 'http://localhost:4000'],
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'none'"],
+        connectSrc: ["'self'", 'http://localhost:4000'],
+      },
     },
   },
 });
 
 const app = demo.getApp();
 
-// eslint-disable-next-line unicorn/prefer-top-level-await
 (async () => {
   await demo.start();
 
@@ -35,4 +36,9 @@ const app = demo.getApp();
 
   // favicon.ico
   app.use(favicon(path.join(favicons, 'favicon.ico')));
+
+  // Routes
+  app.get('/', (_req, res) => {
+    res.json({ hello: 'world' });
+  });
 })();
