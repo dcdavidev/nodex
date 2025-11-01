@@ -6,11 +6,9 @@
 
 ---
 
-## Install
+## Projects
 
-```bash
-npm i @dcdavidev/nodex
-```
+- [nodex](./packages/nodex/README.md)
 
 ## License
 
@@ -18,4 +16,4 @@ This project is licensed under the MIT License.
 
 **Copyright (c) 2025 Davide Di Criscito**
 
-For the full details, see the [LICENSE](LICENSE) file.
+For the full details, see the [LICENSE](./LICENSE) file.
