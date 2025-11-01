@@ -44,7 +44,7 @@
     "@commitlint/cli": "^20.1.0",
     "@commitlint/config-conventional": "^20.0.0",
     "@cspell/cspell-types": "^9.2.2",
-    "@dcdavidev/nodex": "^0.1.0",
+    "@dcdavidev/nodex": "^0.2.0",
     "@nx/esbuild": "22.0.1",
     "@nx/js": "22.0.1",
     "@nx/node": "22.0.1",

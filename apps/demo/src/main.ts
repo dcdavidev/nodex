@@ -16,6 +16,12 @@ const demo = new Nodex({
   cors: {
     origin: ['http://localhost:4000'],
   },
+  helmet: {
+    directives: {
+      defaultSrc: ["'none'"],
+      connectSrc: ["'self'", 'http://localhost:4000'],
+    },
+  },
 });
 
 const app = demo.getApp();
