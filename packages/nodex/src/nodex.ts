@@ -1,25 +1,16 @@
 import type { Server } from 'node:http';
 
 import express, { type Application } from 'express';
-import passportjs from 'passport';
 
 import type { Logger } from 'pino';
 
 import { DEFAULT_PORT } from './consts/port.js';
-import { ValidationError } from './errors/validation-error.js';
+import { setupConfig } from './helpers/setup-config.js';
+import { setupMiddlewares } from './helpers/setup-middlewares.js';
 import { logger } from './logger.js';
-import { configureCompression } from './middlewares/compression.js';
-import { configureCookieParser } from './middlewares/cookie-parser.ts.js';
-import { configureCors } from './middlewares/cors.js';
-import { errorHandler } from './middlewares/error-handler.js';
-import { configureHelmet } from './middlewares/helmet.js';
-import { configureHpp } from './middlewares/hpp.js';
-import { configureRateLimit } from './middlewares/rate-limit.js';
-import { configureSession } from './middlewares/session.js';
 import {
   type NodexConfigInput,
   type NodexConfigOutput,
-  NodexConfigSchema,
 } from './schemas/nodex-config.js';
 
 /**
@@ -33,7 +24,6 @@ export class Nodex {
   private server?: Server;
   private readonly config: NodexConfigOutput;
   private readonly logger: Logger;
-  private passport?: typeof passportjs;
 
   /**
    * Constructs a new Nodex server instance.
@@ -44,29 +34,16 @@ export class Nodex {
    */
   constructor(config: NodexConfigInput) {
     this.app = express();
-    this.logger = this.setupLogger(this.app);
 
-    this.config = this.setupConfig(config);
+    // Logger
+    this.logger = logger;
+    this.app.set('logger', logger);
 
-    if (typeof this.config.passport !== 'boolean') {
-      this.passport = this.config.passport;
-    }
+    // Config
+    this.config = setupConfig(config);
 
-    this.setupMiddlewares();
-  }
-
-  // --- LOGGER ---
-
-  /**
-   * Sets up and attaches the logger to the given Express application.
-   * @param app Express application.
-   * @returns Logger instance to use in Nodex.
-   * @example
-   * const logger = this.setupLogger(app);
-   */
-  private setupLogger(app: Application) {
-    app.set('logger', logger);
-    return logger;
+    // Global Middlewares
+    setupMiddlewares(this.app, this.config);
   }
 
   /**
@@ -79,43 +56,6 @@ export class Nodex {
     return this.logger;
   }
 
-  // --- Error Handling ---
-
-  /**
-   * Attaches error event listener to the server.
-   * Logs server errors using the application's logger.
-   * @example
-   * this.setupErrorHandling();
-   */
-  private setupErrorHandling() {
-    this.server?.on('error', (err) => {
-      this.logger.error(err, 'Server error:');
-    });
-  }
-
-  // --- Nodex Config ---
-
-  /**
-   * Validates the provided config using NodexConfigSchema.
-   * Throws ValidationError if validation fails.
-   * @param config Raw configuration input for Nodex.
-   * @returns Validated configuration.
-   * @throws {ValidationError} If configuration is invalid.
-   * @example
-   * const config = this.setupConfig(rawConfig);
-   */
-  private setupConfig(config: NodexConfigInput): NodexConfigOutput {
-    const logger = this.getLogger();
-    const result = NodexConfigSchema.safeParse(config);
-
-    if (!result.success) {
-      logger.error(result.error, 'Invalid Nodex configuration');
-      throw new ValidationError('Invalid Nodex configuration', result.error);
-    }
-
-    return result.data;
-  }
-
   /**
    * Returns the validated Nodex configuration.
    * @returns NodexConfigOutput object.
@@ -124,56 +64,6 @@ export class Nodex {
    */
   public getConfig(): NodexConfigOutput {
     return this.config;
-  }
-
-  // --- Middlewares ---
-
-  /**
-   * Sets up Express middlewares for the application.
-   * Currently applies the helmet security middleware.
-   * @example
-   * this.setupMiddlewares();
-   */
-  private setupMiddlewares() {
-    // Helmet
-    configureHelmet(this.app, this.config);
-
-    // CORS
-    configureCors(this.app, this.config);
-
-    // Body Parsers
-    this.app.use(express.json());
-    this.app.use(express.urlencoded({ extended: true }));
-
-    // cookie-parser
-    configureCookieParser(this.app, this.config);
-
-    // compression
-    configureCompression(this.app, this.config);
-
-    // express-rate-limit
-    configureRateLimit(this.app, this.config);
-
-    // hpp
-    configureHpp(this.app, this.config);
-
-    // express-session - Session management
-    configureSession(this.app, this.config);
-
-    // passport - Authentication middleware
-    if (this.passport) {
-      this.app.use(this.passport.initialize());
-      this.app.use(this.passport.session());
-    }
-
-    // TODO: celebrate/joi - Validation middleware (usually early)
-    // TODO: multer - multipart/form-data (file upload, before routes)
-    // TODO: method-override - HTTP method override (depends on your forms)
-    // TODO: serve-static - serve static files
-    // TODO: serve-favicon - serve site favicon
-
-    // Error Handler (keep it last)
-    this.app.use(errorHandler);
   }
 
   // --- Nodex Start Helper ---
@@ -198,7 +88,11 @@ export class Nodex {
         }
         resolve();
       });
-      this.setupErrorHandling();
+
+      // Attach error handler immediately after server creation
+      this.server?.on('error', (err) => {
+        logger.error(err, 'Server error:');
+      });
     });
   }
 
