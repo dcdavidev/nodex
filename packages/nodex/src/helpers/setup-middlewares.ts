@@ -51,9 +51,6 @@ export function setupMiddlewares(
   // passport - Authentication middleware
   configurePassport(app, config);
 
-  // TODO: celebrate/joi - Validation middleware (usually early)
-  // TODO: multer - multipart/form-data (file upload, before routes)
-  // TODO: method-override - HTTP method override (depends on your forms)
   // TODO: serve-static - serve static files
   // TODO: serve-favicon - serve site favicon
 

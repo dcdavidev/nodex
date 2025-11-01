@@ -52,7 +52,7 @@ export class Nodex {
    * @example
    * const log = nodex.getLogger();
    */
-  public getLogger() {
+  public getLogger(): Logger {
     return this.logger;
   }
 
@@ -64,6 +64,35 @@ export class Nodex {
    */
   public getConfig(): NodexConfigOutput {
     return this.config;
+  }
+
+  /**
+   * Public getter for the express app instance.
+   * @returns The express application instance.
+   * @example
+   * const app = Nodex.getApp();
+   */
+  public getApp(): Application {
+    return this.app;
+  }
+
+  /**
+   * Registers a static file serving middleware on the Express app.
+   * Serves static files from the specified directory under the provided mount path.
+   * If no mount path is provided, serves the static files at the root URL (`/`).
+   * @param path Filesystem path to the directory containing static assets to serve.
+   * @param mountPath Optional URL path prefix where static files will be served from. Defaults to '/'.
+   *
+   * @example
+   * // Serve static files from './public' directory at the root URL
+   * nodex.serveStatic('./public');
+   *
+   * @example
+   * // Serve static files from './assets' directory under '/static' URL path
+   * nodex.serveStatic('./assets', '/static');
+   */
+  public serveStatic(path: string, mountPath = '/') {
+    this.app.use(mountPath, express.static(path));
   }
 
   // --- Nodex Start Helper ---
