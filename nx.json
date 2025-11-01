@@ -119,7 +119,7 @@
     "projectsRelationship": "independent",
     "version": {
       "conventionalCommits": true,
-      "preVersionCommand": "npm install --ignore-scripts && nx nodex:build --verbose --tui false"
+      "preVersionCommand": "npm install --ignore-scripts && nx run nodex:build --verbose --tui false"
     },
     "changelog": {
       "workspaceChangelog": false,
