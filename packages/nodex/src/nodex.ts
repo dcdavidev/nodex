@@ -76,25 +76,6 @@ export class Nodex {
     return this.app;
   }
 
-  /**
-   * Registers a static file serving middleware on the Express app.
-   * Serves static files from the specified directory under the provided mount path.
-   * If no mount path is provided, serves the static files at the root URL (`/`).
-   * @param path Filesystem path to the directory containing static assets to serve.
-   * @param mountPath Optional URL path prefix where static files will be served from. Defaults to '/'.
-   *
-   * @example
-   * // Serve static files from './public' directory at the root URL
-   * nodex.serveStatic('./public');
-   *
-   * @example
-   * // Serve static files from './assets' directory under '/static' URL path
-   * nodex.serveStatic('./assets', '/static');
-   */
-  public serveStatic(path: string, mountPath = '/') {
-    this.app.use(mountPath, express.static(path));
-  }
-
   // --- Nodex Start Helper ---
 
   /**
@@ -129,12 +110,20 @@ export class Nodex {
 
   /**
    * Gracefully shuts down the Nodex server.
-   * Stops accepting new connections and closes existing ones.
-   * @returns Promise that resolves when the server has stopped.
+   * Stops accepting new connections, allows active connections to finish,
+   * runs optional asynchronous cleanup chores, and closes the server.
+   * @param chores An optional async callback function to perform cleanup tasks
+   * before shutdown (e.g., closing DB connections, clearing cache). This function is awaited before closing the server.
+   *
+   * @returns Promise that resolves when the server has stopped gracefully.
+   *
    * @example
-   * await nodex.shutdown();
+   * await nodex.shutdown(async () => {
+   *   await db.close();
+   *   await cache.clear();
+   * });
    */
-  public async shutdown(): Promise<void> {
+  public async shutdown(chores?: () => Promise<void> | void): Promise<void> {
     const logger = this.getLogger();
 
     if (!this.server) {
@@ -143,7 +132,15 @@ export class Nodex {
     }
 
     logger.info('Shutdown initiated...');
-    // TODO: close DB connections, clear cache, etc...
+
+    if (chores) {
+      try {
+        await chores();
+      } catch (error) {
+        logger.error(error, 'Error during cleanup chores');
+        // Proceed with shutdown even if chores fail
+      }
+    }
 
     return new Promise((resolve, reject) => {
       this.server!.close((err) => {
