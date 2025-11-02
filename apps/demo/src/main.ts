@@ -41,4 +41,9 @@ const app = demo.getApp();
   app.get('/', (_req, res) => {
     res.json({ hello: 'world' });
   });
+
+  process.on('SIGINT', async () => {
+    await demo.shutdown();
+    process.exit(0);
+  });
 })();
