@@ -4,7 +4,6 @@ import express, { type Application } from 'express';
 
 import type { Logger } from 'pino';
 
-import { DEFAULT_PORT } from './consts/port.js';
 import { setupConfig } from './helpers/setup-config.js';
 import { setupMiddlewares } from './helpers/setup-middlewares.js';
 import { logger } from './logger.js';
@@ -91,11 +90,7 @@ export class Nodex {
 
     return new Promise((resolve) => {
       this.server = this.app.listen(port, () => {
-        if (port === DEFAULT_PORT) {
-          logger.info(`Server running on default port ${port}`);
-        } else {
-          logger.info(`Server running on port ${port}`);
-        }
+        logger.info(`Server running @ http://localhost:${port}`);
         resolve();
       });
 
