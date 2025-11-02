@@ -11,6 +11,7 @@
   "scripts": {
     "build": "nx run-many -t build",
     "commit": "cz",
+    "deps:up": "./scripts/depts-upgrade.sh",
     "fmt:check": "prettier . --check",
     "fmt:fix": "prettier . --write",
     "lint:check": "eslint .",
