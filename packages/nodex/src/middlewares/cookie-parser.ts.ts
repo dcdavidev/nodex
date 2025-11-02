@@ -30,6 +30,7 @@ export function configureCookieParser(
     return app.use(cookieParser());
   } else {
     const { secret, options: opts } = options;
+
     return app.use(cookieParser(secret, opts));
   }
 }
