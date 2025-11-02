@@ -84,10 +84,13 @@
           "cwd": "{projectRoot}",
           "parallel": false,
           "commands": [
-            "npx tsc --project tsconfig.lib.json",
             "tsdown"
           ]
-        }
+        },
+        "dependsOn": [
+          "check",
+          "^build"
+        ]
       },
       "watch": {
         "executor": "nx:run-commands",
@@ -98,6 +101,18 @@
           "cwd": "{projectRoot}",
           "commands": [
             "tsdown --watch"
+          ]
+        }
+      },
+      "check": {
+        "executor": "nx:run-commands",
+        "inputs": [
+          "default"
+        ],
+        "options": {
+          "cwd": "{projectRoot}",
+          "commands": [
+            "npx tsc --project tsconfig.lib.json --noEmit"
           ]
         }
       }
