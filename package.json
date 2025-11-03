@@ -68,7 +68,7 @@
     "@types/express": "^5.0.5",
     "@types/express-session": "^1.18.2",
     "@types/hpp": "^0.2.7",
-    "@types/node": "^24.9.2",
+    "@types/node": "^24.10.0",
     "@types/passport": "^1.0.17",
     "@types/serve-favicon": "^2.5.7",
     "commitizen": "^4.3.1",
