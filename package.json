@@ -56,7 +56,7 @@
     "@pmmmwh/react-refresh-webpack-plugin": "^0.6.1",
     "@spellbookx/commitlint-config": "^0.21.6",
     "@spellbookx/cspell-config": "^0.21.6",
-    "@spellbookx/eslint-plugin": "^0.24.0",
+    "@spellbookx/eslint-plugin": "^0.27.5",
     "@spellbookx/prettier-config": "^0.21.6",
     "@svgr/webpack": "^8.0.1",
     "@swc-node/register": "^1.11.1",
